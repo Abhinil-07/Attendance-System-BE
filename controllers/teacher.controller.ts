@@ -23,7 +23,7 @@ const signupController = async (req: Request, res: Response) => {
     const { success } = signupBody.safeParse(req.body);
     if (!success) {
       return res.status(411).json({
-        message: "Email already taken / Incorrect inputs",
+        message: "Incorrect inputs",
       });
     }
 
@@ -33,7 +33,7 @@ const signupController = async (req: Request, res: Response) => {
 
     if (existingUser) {
       return res.status(411).json({
-        message: "Email already taken/Incorrect inputs",
+        message: "Email already taken",
       });
     }
 
@@ -63,6 +63,7 @@ const signupController = async (req: Request, res: Response) => {
     console.log("Error creating user:", error);
     res.status(500).json({
       message: "Internal server error",
+      error,
     });
   }
 };
