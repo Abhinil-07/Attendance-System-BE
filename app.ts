@@ -12,7 +12,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.get("/", async (req, res) => {
-  res.status(200).json("Health check endpoint for the server");
+  res.status(200).json("Health check endpoint for the server test 2");
 });
 
 export { app };
