@@ -14,10 +14,6 @@ const signinBody = zod.object({
   password: zod.string(),
 });
 
-interface AuthenticatedRequest extends Request {
-  user?: IUser;
-}
-
 const signupController = async (req: Request, res: Response) => {
   try {
     const { success } = signupBody.safeParse(req.body);
