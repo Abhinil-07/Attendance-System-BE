@@ -13,7 +13,11 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    "https://teacher-attendance-fe.vercel.app",
+    "https://student-attendance-fe.vercel.app/",
+  ],
   credentials: true,
 };
 
