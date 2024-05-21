@@ -16,6 +16,11 @@ const classroomSchema: Schema<IClassroom> = new Schema({
     ref: "Teacher",
     required: true,
   },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 });
 
 const ClassroomModel = mongoose.model<IClassroom>("Classroom", classroomSchema);
