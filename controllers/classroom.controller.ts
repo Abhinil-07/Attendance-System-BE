@@ -14,4 +14,8 @@ const createClassroom = async (req: Request, res: Response) => {
   return res.status(200).json({ success: true, classroom });
 };
 
-export { createClassroom };
+const getAllClassrooms = async (req: Request, res: Response) => {
+  const classrooms = await ClassroomModel.find();
+  return res.status(200).json({ success: true, classrooms });
+};
+export { createClassroom, getAllClassrooms };
