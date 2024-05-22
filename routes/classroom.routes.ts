@@ -7,6 +7,6 @@ import {
 const router = Router();
 
 router.route("/create-classroom").post(createClassroom);
-router.route("all").get(getAllClassrooms);
+router.route("/all").get(getAllClassrooms);
 
 export default router;
