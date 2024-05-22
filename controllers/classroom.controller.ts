@@ -3,15 +3,18 @@ import ClassroomModel from "../models/classroom.model";
 import ShortUniqueId from "short-unique-id";
 
 const createClassroom = async (req: Request, res: Response) => {
-  const { name, teacherID } = req.body;
-  const code = new ShortUniqueId().randomUUID(6);
-  const classroom = await ClassroomModel.create({
-    name,
-    teacher: teacherID,
-    code,
-  });
+  try {
+    const { name, teacherID, id } = req.body;
 
-  return res.status(200).json({ success: true, classroom });
+    const classroom = await ClassroomModel.create({
+      name,
+      teacher: teacherID,
+      code: id,
+    });
+    return res.status(200).json({ success: true, classroom });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getAllClassrooms = async (req: Request, res: Response) => {
