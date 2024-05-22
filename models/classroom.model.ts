@@ -3,6 +3,7 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 export interface IClassroom extends Document {
   name: string;
   teacher: Types.ObjectId | string; // Assuming Teacher model's ObjectId or string
+  code: string;
 }
 
 const classroomSchema: Schema<IClassroom> = new Schema({
@@ -16,7 +17,7 @@ const classroomSchema: Schema<IClassroom> = new Schema({
     ref: "Teacher",
     required: true,
   },
-  id: {
+  code: {
     type: String,
     required: true,
     unique: true,
