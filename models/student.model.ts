@@ -5,7 +5,7 @@ export interface IStudent extends Document {
   username: string;
   password: string;
   email: string;
-  img_id: string;
+  embeddings_id: string;
   isPasswordCorrect(password: string): Promise<boolean>;
 }
 
@@ -23,7 +23,7 @@ const studentSchema: Schema<IStudent> = new Schema({
     type: String,
     required: true,
   },
-  img_id: {
+  embeddings_id: {
     type: String,
     default: "",
   },
