@@ -25,7 +25,7 @@ const studentSchema: Schema<IStudent> = new Schema({
   },
   embeddings_id: {
     type: String,
-    default: "",
+    default: null,
   },
 });
 
