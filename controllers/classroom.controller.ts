@@ -27,18 +27,17 @@ const getAllClassrooms = async (req: Request, res: Response) => {
 };
 
 const getStudentClassrooms = async (req: Request, res: Response) => {
-  const { studentID } = req.params;
-  const student = mongoose.Types.ObjectId;
-  const id = new student(studentID);
-  console.log("Student ID", id);
-
-  const classrooms = await StudentImageModel.find({ student_id: id });
-  const classroomIds = classrooms.map((classroom) => classroom.classroom_id);
-  console.log(classroomIds);
-  const classroomList = await ClassroomModel.find({
-    _id: { $in: classroomIds },
-  });
-  // console.log(classroom);
-  return res.status(200).json({ success: true, classroomList });
+  // const { studentID } = req.params;
+  // const student = mongoose.Types.ObjectId;
+  // const id = new student(studentID);
+  // console.log("Student ID", id);
+  // const classrooms = await StudentImageModel.find({ student_id: id });
+  // const classroomIds = classrooms.map((classroom) => classroom.classroom_id);
+  // console.log(classroomIds);
+  // const classroomList = await ClassroomModel.find({
+  //   _id: { $in: classroomIds },
+  // });
+  // // console.log(classroom);
+  // return res.status(200).json({ success: true, classroomList });
 };
 export { createClassroom, getAllClassrooms, getStudentClassrooms };

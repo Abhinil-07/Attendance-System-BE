@@ -2,20 +2,15 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
 export interface IStudentImage extends mongoose.Document {
-  classroom_id: mongoose.Schema.Types.ObjectId;
-  student_id: mongoose.Schema.Types.ObjectId;
+  student_id: string;
   embedding: Array<Number>;
   name: string;
+  code: Array<String>;
 }
 
 const studentImageSchema: Schema<IStudentImage> = new Schema({
-  classroom_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Classroom",
-    required: true,
-  },
   student_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Student",
     required: true,
   },
@@ -27,10 +22,14 @@ const studentImageSchema: Schema<IStudentImage> = new Schema({
     type: String,
     required: true,
   },
+  code: {
+    type: [String],
+    required: true,
+  },
 });
 
 const StudentImageModel = mongoose.model<IStudentImage>(
-  "student_img",
+  "embeddings",
   studentImageSchema
 );
 
