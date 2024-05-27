@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import teacherRouter from "./routes/teacher.routes";
 import studentRouter from "./routes/student.routes";
 import classsroomRouter from "./routes/classroom.routes";
+import attendanceRouter from "./routes/attendance.routes";
 const app: Application = express();
 
 app.use(express.json({ limit: "16kb" }));
@@ -29,5 +30,5 @@ app.get("/", async (req, res) => {
 app.use("/api/v1/teachers", teacherRouter);
 app.use("/api/v1/students", studentRouter);
 app.use("/api/v1/classrooms", classsroomRouter);
-
+app.use("/api/v1/attendance", attendanceRouter);
 export { app };
