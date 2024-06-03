@@ -8,7 +8,7 @@ import {
 const router = Router();
 
 router.route("/create-classroom").post(createClassroom);
-router.route("/all").get(getAllClassrooms);
+router.route("/all/:teacherId").get(getAllClassrooms);
 router.route("/student/:studentID").get(getStudentClassrooms);
 
 export default router;

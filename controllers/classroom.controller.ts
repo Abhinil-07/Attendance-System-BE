@@ -21,9 +21,23 @@ const createClassroom = async (req: Request, res: Response) => {
 };
 
 const getAllClassrooms = async (req: Request, res: Response) => {
-  const classrooms = await ClassroomModel.find();
+  try {
+    const teacherId = req.params.teacherId; // Get the teacher ID from the request parameters
 
-  return res.status(200).json({ success: true, classrooms });
+    if (!teacherId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Teacher ID is required" });
+    }
+
+    // Find classrooms by teacher ID
+    const classrooms = await ClassroomModel.find({ teacher: teacherId });
+
+    return res.status(200).json({ success: true, classrooms });
+  } catch (error) {
+    console.error("Error fetching classrooms:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
 };
 
 const getStudentClassrooms = async (req: Request, res: Response) => {
