@@ -4,6 +4,7 @@ import zod from "zod";
 import StudentModel from "../models/student.model";
 import StudentImageModel from "../models/studentImage.model";
 import ClassroomModel from "../models/classroom.model";
+import TeacherModel from "../models/teacher.model";
 
 const signupBody = zod.object({
   username: zod.string(),
@@ -127,26 +128,42 @@ const logoutController = (req: Request, res: Response) => {
 const getStudentClassrooms = async (req: Request, res: Response) => {
   const studentId = req.params.studentId;
   try {
-    // Fetch the classroom codes for the student
+    // Fetch classroom codes for the student
     const classroomArray = await StudentImageModel.find({
       student_id: studentId,
     });
-
-    if (!classroomArray.length) {
-      return res.status(404).json({
-        success: false,
-        message: "No classrooms found for this student.",
-      });
-    }
-
     const codes = classroomArray[0].code;
-    console.log(codes);
-    // Query the classrooms collection to find the classrooms with codes in the fetched array
-    const classrooms = await ClassroomModel.find({
-      code: { $in: codes },
-    });
 
-    return res.status(200).json({ success: true, classrooms });
+    // Fetch classrooms with the given codes
+    const classrooms = await ClassroomModel.find({ code: { $in: codes } });
+
+    // Extract unique teacher IDs from classrooms
+    const teacherIds = [
+      ...new Set(classrooms.map((classroom) => classroom.teacher)),
+    ];
+
+    // Fetch teacher details
+    const teachers = await TeacherModel.find({ _id: { $in: teacherIds } });
+
+    // Create a mapping of teacher IDs to teacher names
+    const teacherMap = teachers.reduce(
+      (acc: { [key: string]: string }, teacher) => {
+        acc[teacher._id] = teacher.username;
+        return acc;
+      },
+      {}
+    );
+
+    // Replace teacher IDs with teacher names in classrooms array
+    const classroomsWithTeacherNames = classrooms.map((classroom) => ({
+      ...classroom.toObject(),
+      teacher: teacherMap[classroom.teacher],
+    }));
+
+    // Return the modified classroom array
+    return res
+      .status(200)
+      .json({ success: true, classrooms: classroomsWithTeacherNames });
   } catch (error) {
     return res.status(500).json({ success: false, message: "noob" });
   }
