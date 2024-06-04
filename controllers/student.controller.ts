@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import zod from "zod";
 import StudentModel from "../models/student.model";
+import StudentImageModel from "../models/studentImage.model";
+import ClassroomModel from "../models/classroom.model";
 
 const signupBody = zod.object({
   username: zod.string(),
@@ -122,4 +124,37 @@ const logoutController = (req: Request, res: Response) => {
   }
 };
 
-export { signupController, loginController, logoutController };
+const getStudentClassrooms = async (req: Request, res: Response) => {
+  const studentId = req.params.studentId;
+  try {
+    // Fetch the classroom codes for the student
+    const classroomArray = await StudentImageModel.find({
+      student_id: studentId,
+    });
+
+    if (!classroomArray.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No classrooms found for this student.",
+      });
+    }
+
+    const codes = classroomArray[0].code;
+    console.log(codes);
+    // Query the classrooms collection to find the classrooms with codes in the fetched array
+    const classrooms = await ClassroomModel.find({
+      code: { $in: codes },
+    });
+
+    return res.status(200).json({ success: true, classrooms });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "noob" });
+  }
+};
+
+export {
+  signupController,
+  loginController,
+  logoutController,
+  getStudentClassrooms,
+};
